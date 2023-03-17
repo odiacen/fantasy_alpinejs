@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <title>Catálogo de Productos Fantasy</title>
+</head>
+<body class="p-10">
+
+        <div x-data="dataD()" x-init="callProd()" class="mt-16 xxl:mt-0 xxl:ml-auto">
+        
+        
+<nav class="bg-white px-2 sm:px-4 py-2.5 dark:bg-gray-900 fixed w-full z-20 top-0 left-0 border-b border-gray-200 dark:border-gray-600">
+    <div class="container flex flex-wrap items-center justify-between mx-auto">
+    <a class="flex items-center">
+        <img src="https://fantasyregalos.com/wp-content/uploads/2023/02/png-sin-generico.png" class="h-10 mr-3 sm:h-9" alt="Fantasy Logo">
+        <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">Fantasy Regalos</span>
+    </a>
+    <div class="flex md:order-2">
+        <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Get started</button>
+        <button data-collapse-toggle="navbar-sticky" type="button" class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-sticky" aria-expanded="false">
+          <span class="sr-only">Open main menu</span>
+          <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg>
+      </button>
+    </div>
+    <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
+      <ul class="flex flex-col p-4 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+        <li>
+          <a href="#" class="block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white" aria-current="page">Home</a>
+        </li>
+        <li>
+          <a href="#" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">About</a>
+        </li>
+        <li>
+          <a href="#" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Services</a>
+        </li>
+        <li>
+          <a href="#" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Contact</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+  </nav>
+  
+        <div class="flex items-center justify-center min-h-screen  antialiased">
+            <div class="flex flex-col bg-white">
+        <div class="flex flex-col">
+            
+            <template x-if="showProd" x-for="producto in productos">
+            <div x-show="producto.price_html !== ''" @click="prodID = producto.id, callVar()" class="border-b border-y-indigo-500 border-gray-200 flex flex-row justify-between px-5 mt-4 ">
+               
+                <a href="#">
+                    <img  class="p-8 rounded-t-lg" x-bind:src="producto.images[0].src" alt="product image" />
+                </a>
+                <div class="px-5 pb-5">
+                    <a href="#">
+                        <h5 x-text="producto.name" class="text-xl font-bold tracking-tight text-gray-900 dark:text-white"></h5>
+                    </a>
+                    
+                    <div class="flex items-center justify-between">
+                        <span x-html="producto.price_html" class="text-xl text-gray-900 dark:text-white"></span>
+                        
+                    </div>
+                    <div @click="prodID = callVar()" class="flex items-center justify-between">
+                        <a x-text="'Opciones'" href="#" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-s px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"></a>
+                    </div>
+                </div>
+            
+            </div>           
+
+            </template>
+        
+
+        
+         <template x-if="!showProd" x-for="variacion in variaciones">
+            <div x-show="variacion.stock_quantity > 0, variacion.manage_stock" class="mx-5 mt-5">
+                <img class="rounded-lg bg-cover" x-bind:src="variacion.image.src" alt="">
+                <div class="flex flex-row justify-between items-start mt-4">
+                    <div>
+                        <p x-text="variacion.attributes[0].option" class="text-sm text-gray-800 font-bold"></p>
+                        <p  class="text-sm text-gray-800"></p>
+                        <p x-text="'Precio: $' + variacion.price" class="text-s text-black-800 mt-2"></p>
+                    </div>
+                    <div class="flex flex-row items-center">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <p x-text="variacion.stock_quantity + ' disponibles'" class="text-sm"></p>
+                    </div>
+                </div>
+            </div>     
+         </template>
+
+         
+         <button x-show="more" x-text="'Ver más'" @click="page++, callProd()" type="button" class="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-900 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex justify-center w-full text-center"></button>
+
+        
+        <div class="sticky pt-2 pb-4 bg-white bottom-0 flex flex-row justify-between px-5 border-t border-gray-300">
+            <div class="flex-col flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 text-red-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                  </svg>
+                <p class="text-xxsm font-semibold text-gray-800">Explore</p>
+            </div>
+            <div class="flex-col flex items-center text-gray-400">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20.42 4.58a5.4 5.4 0 0 0-7.65 0l-.77.78-.77-.78a5.4 5.4 0 0 0-7.65 0C1.46 6.7 1.33 10.28 4 13l8 8 8-8c2.67-2.72 2.54-6.3.42-8.42z"></path>
+                  </svg>
+                <p class="text-xxsm font-regular">Whislists</p>
+            </div>
+            <div class="flex-col flex items-center text-gray-400">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M16.2 3.8a2.7 2.7 0 0 0-3.81 0l-.4.38-.4-.4a2.7 2.7 0 0 0-3.82 0C6.73 4.85 6.67 6.64 8 8l4 4 4-4c1.33-1.36 1.27-3.15.2-4.2z"></path>
+                    <path d="M8 8c-1.36-1.33-3.15-1.27-4.2-.2a2.7 2.7 0 0 0 0 3.81l.38.4-.4.4a2.7 2.7 0 0 0 0 3.82C4.85 17.27 6.64 17.33 8 16"></path>
+                    <path d="M16 16c1.36 1.33 3.15 1.27 4.2.2a2.7 2.7 0 0 0 0-3.81l-.38-.4.4-.4a2.7 2.7 0 0 0 0-3.82C19.15 6.73 17.36 6.67 16 8"></path>
+                    <path d="M7.8 20.2a2.7 2.7 0 0 0 3.81 0l.4-.38.4.4a2.7 2.7 0 0 0 3.82 0c1.06-1.06 1.12-2.85-.21-4.21l-4-4-4 4c-1.33 1.36-1.27 3.15-.2 4.2z"></path>
+                    <path d="m7 17-5 5"></path>
+                  </svg>
+                <p class="text-xxsm font-regular">Trips</p>
+            </div>
+            <div class="flex-col flex items-center text-gray-400">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                  </svg>
+                <p class="text-xxsm font-regular">Inbox</p>
+            </div>
+            <div class="flex-col flex items-center text-gray-400">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                  </svg>
+                <p class="text-xxsm font-regular">Profile</p>
+            </div>
+
+    </div>
+    
+
+        
+
+    </div>
+<script>
+function dataD(){
+           return {
+                page: 1,
+                prodID: 0,
+                showProd: true,
+                more: true,
+                buildUrl() {
+                    return this.url + '&page=' + this.page;
+                    
+
+                },
+                url: "https://fantasyregalos.com/wp-json/wc/v3/products?per_page=20&orderby=popularity&status=publish&consumer_key=ck_42999e7fed435f74ce7e09872c8ee0fd643137ea&consumer_secret=cs_979a8d2977025ed95f62de200c6293f3818f863c",
+                
+                buildUrlVar(){
+                             
+                    return 'https://fantasyregalos.com/wp-json/wc/v3/products/' + this.prodID + '/variations?per_page=100&consumer_key=ck_42999e7fed435f74ce7e09872c8ee0fd643137ea&consumer_secret=cs_979a8d2977025ed95f62de200c6293f3818f863c';
+                },
+                
+                productos: [],
+                variaciones: [],
+                test: 0,
+                
+                callVar(){
+                    this.showProd = false;
+                    this.more = false;
+                    axios.get( this.buildUrlVar() )
+                    .then( (r)=>{
+                        r.data.forEach(element => {
+                                this.variaciones.push(element);
+                            });    
+                        console.log(this.variaciones);                        
+                                                
+                        }).catch( (e)=>{
+                            console.log(e);
+                        })
+                },
+                
+                callProd () {
+                    this.showProd = true;
+                    axios.get( this.buildUrl() )
+                    .then( (r)=>{
+                        r.data.forEach(element => {
+                                this.productos.push(element);
+                            });
+                        if (r.data.length < 20) {
+                            this.more = false;
+                        };                        
+                            
+                        }).catch( (e)=>{
+                            console.log(e);
+                        })
+                }
+           }
+       }
+
+</script>
+</body>
+</html>
